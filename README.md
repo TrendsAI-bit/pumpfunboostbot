@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PumpBoost Bot - Website
 
-## Getting Started
+This is the official website for PumpBoost Bot, a Solana trading bot on Telegram.
 
-First, run the development server:
+## 🚀 Features
+
+- **Modern Design**: Built with Next.js 15 and Tailwind CSS
+- **Responsive**: Mobile-first design that works on all devices
+- **Fast Loading**: Optimized for performance with static generation
+- **SEO Friendly**: Proper meta tags and semantic HTML structure
+
+## 🛠️ Technology Stack
+
+- **Framework**: Next.js 15
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+- **Deployment**: Vercel
+
+## 🌐 Live Demo
+
+Visit the live website: [PumpBoost Bot Website](https://pumpboost-bot.vercel.app)
+
+## 📦 Installation
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Deployment to Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Connect your GitHub repository to Vercel
+2. Set the root directory to `pumpboost-website` 
+3. Deploy with default Next.js settings
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Environment Variables
 
-## Learn More
+No environment variables are required for this static website.
 
-To learn more about Next.js, take a look at the following resources:
+## 📖 About PumpBoost Bot
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+PumpBoost Bot is a comprehensive Solana trading bot that offers:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Token Analysis**: Real-time price, market cap, and holder data
+- **Wallet Management**: Connect or generate Solana wallets
+- **Smart Trading**: Quick buy/sell with multiple SOL amounts
+- **PumpCall Voting**: Community-driven token recommendations
+- **Security**: Auto-deletion of sensitive data and secure key handling
 
-## Deploy on Vercel
+## 🔗 Links
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Telegram Bot**: [@pumpfunboostbot](https://t.me/pumpfunboostbot)
+- **GitHub Repository**: [TrendsAI-bit/pumpfunboostbot](https://github.com/TrendsAI-bit/pumpfunboostbot)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+
+This project is licensed under the MIT License.
