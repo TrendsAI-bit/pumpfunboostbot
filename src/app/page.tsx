@@ -1,103 +1,249 @@
-import Image from "next/image";
+'use client'
+
+import React from 'react'
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Navigation */}
+      <nav className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <span className="text-2xl mr-3">🚀</span>
+              <span className="text-xl font-bold text-white">PumpBoost Bot</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
+              <a href="#how-to-use" className="text-gray-300 hover:text-white transition-colors">How to Use</a>
+              <a href="#documentation" className="text-gray-300 hover:text-white transition-colors">Docs</a>
+              <a 
+                href="https://t.me/pumpfunboostbot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition-colors"
+              >
+                Launch Bot
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+      {/* Hero Section */}
+      <section className="py-20 px-4 text-center">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-4 inline-flex items-center px-3 py-1 rounded-full bg-purple-600/20 text-purple-300 border border-purple-500 text-sm">
+            🚀 Advanced Solana Trading Bot
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            Trade Smarter with
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400"> PumpBoost</span>
+          </h1>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Your all-in-one Telegram bot for analyzing tokens, managing wallets, and making smart trades on Solana. 
+            Powered by real-time data and community insights.
+          </p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <a 
+              href="https://t.me/pumpfunboostbot"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-md text-lg font-medium transition-all flex items-center"
+            >
+              <span className="mr-2">⚡</span>
+              Start Trading Now
+            </a>
+            <a 
+              href="#features"
+              className="border border-purple-500 text-purple-300 hover:bg-purple-600/20 px-8 py-3 rounded-md text-lg font-medium transition-all"
+            >
+              Learn More
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">24/7</div>
+              <div className="text-gray-300">Always Active</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">0.1s</div>
+              <div className="text-gray-300">Response Time</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">99.9%</div>
+              <div className="text-gray-300">Uptime</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">Real-time</div>
+              <div className="text-gray-300">Data Analysis</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">Powerful Features</h2>
+            <p className="text-xl text-gray-300">Everything you need for successful Solana trading</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-slate-800/50 border border-slate-700 hover:border-purple-500 transition-colors rounded-lg p-6">
+              <div className="text-4xl mb-4">📊</div>
+              <h3 className="text-xl font-semibold text-white mb-2">Token Analysis</h3>
+              <p className="text-gray-300">
+                Get detailed analytics including price, market cap, holders, and trading volume
+              </p>
+            </div>
+
+            <div className="bg-slate-800/50 border border-slate-700 hover:border-purple-500 transition-colors rounded-lg p-6">
+              <div className="text-4xl mb-4">💰</div>
+              <h3 className="text-xl font-semibold text-white mb-2">Wallet Management</h3>
+              <p className="text-gray-300">
+                Connect existing wallets or generate new ones. Check balances and manage funds securely
+              </p>
+            </div>
+
+            <div className="bg-slate-800/50 border border-slate-700 hover:border-purple-500 transition-colors rounded-lg p-6">
+              <div className="text-4xl mb-4">📈</div>
+              <h3 className="text-xl font-semibold text-white mb-2">Smart Trading</h3>
+              <p className="text-gray-300">
+                Execute quick trades with preset amounts or custom values. Buy and sell with confidence
+              </p>
+            </div>
+
+            <div className="bg-slate-800/50 border border-slate-700 hover:border-purple-500 transition-colors rounded-lg p-6">
+              <div className="text-4xl mb-4">👥</div>
+              <h3 className="text-xl font-semibold text-white mb-2">PumpCall Voting</h3>
+              <p className="text-gray-300">
+                Community-driven token nominations and voting for quality projects with good distribution
+              </p>
+            </div>
+
+            <div className="bg-slate-800/50 border border-slate-700 hover:border-purple-500 transition-colors rounded-lg p-6">
+              <div className="text-4xl mb-4">🛡️</div>
+              <h3 className="text-xl font-semibold text-white mb-2">Security First</h3>
+              <p className="text-gray-300">
+                Auto-deletion of sensitive data, secure key handling, and protection against common threats
+              </p>
+            </div>
+
+            <div className="bg-slate-800/50 border border-slate-700 hover:border-purple-500 transition-colors rounded-lg p-6">
+              <div className="text-4xl mb-4">⚡</div>
+              <h3 className="text-xl font-semibold text-white mb-2">Lightning Fast</h3>
+              <p className="text-gray-300">
+                Real-time data updates, instant trade execution, and responsive user interface
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How to Use Section */}
+      <section id="how-to-use" className="py-20 px-4 bg-slate-800/30">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">How to Get Started</h2>
+            <p className="text-xl text-gray-300">Simple steps to start trading with PumpBoost Bot</p>
+          </div>
+
+          <div className="space-y-8">
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                1
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-2">Start the Bot</h3>
+                <p className="text-gray-300">Click the &ldquo;Launch Bot&rdquo; button or search for @pumpfunboostbot on Telegram and send /start</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                2
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-2">Connect Your Wallet</h3>
+                <p className="text-gray-300">Use the Wallet button to connect an existing Solana wallet or generate a new one for trading</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                3
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-2">Analyze Tokens</h3>
+                <p className="text-gray-300">Paste any Solana token contract address to get detailed analysis including price, volume, and holder data</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-6">
+              <div className="flex-shrink-0 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                4
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-2">Start Trading</h3>
+                <p className="text-gray-300">Use quick buy buttons (0.1, 0.5, 1, 5 SOL) or set custom amounts. Participate in PumpCall voting for community picks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-4">Ready to Start Trading?</h2>
+          <p className="text-xl text-gray-300 mb-8">
+            Join thousands of traders who trust PumpBoost Bot for their Solana trading needs
+          </p>
+          <a 
+            href="https://t.me/pumpfunboostbot"
             target="_blank"
             rel="noopener noreferrer"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-12 py-4 text-lg rounded-md font-medium transition-all flex items-center mx-auto w-fit"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+            <span className="mr-2">🚀</span>
+            Launch PumpBoost Bot
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-800 bg-slate-900/50 py-12 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center mb-4 md:mb-0">
+              <span className="text-2xl mr-2">🚀</span>
+              <span className="text-white font-semibold">PumpBoost Bot</span>
+            </div>
+            <div className="flex space-x-6">
+              <a href="https://t.me/pumpfunboostbot" className="text-gray-400 hover:text-white transition-colors">
+                Telegram Bot
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                Documentation
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                Support
+              </a>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-slate-800 text-center text-gray-400">
+            <p>&copy; 2024 PumpBoost Bot. Built for the Solana community.</p>
+          </div>
+        </div>
       </footer>
     </div>
-  );
+  )
 }
