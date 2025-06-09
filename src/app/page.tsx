@@ -6,26 +6,23 @@ import Image from 'next/image'
 export default function Home() {
   const [activeTab, setActiveTab] = useState('overview')
   const [isLoaded, setIsLoaded] = useState(false)
-  const [visibleSections, setVisibleSections] = useState<string[]>([])
 
   useEffect(() => {
+    // Set loaded state immediately
     setIsLoaded(true)
     
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections(prev => [...prev, entry.target.id])
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
+    // Add a small delay to ensure smooth animations
+    const timer = setTimeout(() => {
+      // Make sure all sections become visible
+      const sections = document.querySelectorAll('.animate-on-load')
+      sections.forEach((section, index) => {
+        setTimeout(() => {
+          section.classList.add('animate-visible')
+        }, index * 100)
+      })
+    }, 100)
 
-    const sections = document.querySelectorAll('[data-animate]')
-    sections.forEach(section => observer.observe(section))
-
-    return () => observer.disconnect()
+    return () => clearTimeout(timer)
   }, [])
 
   // Trading data for animations
@@ -112,6 +109,8 @@ export default function Home() {
     const [count, setCount] = useState(0)
 
     useEffect(() => {
+      if (!isLoaded) return
+      
       const startTime = Date.now()
       const animate = (currentTime: number) => {
         const elapsed = currentTime - startTime
@@ -131,35 +130,10 @@ export default function Home() {
       }, 500)
       
       return () => clearTimeout(timer)
-    }, [end, duration])
+    }, [end, duration, isLoaded])
 
     return <span className="tabular-nums">{count.toLocaleString()}{suffix}</span>
   }
-
-  const FeatureCard = ({ icon, title, description, delay = 0 }: {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-    delay?: number;
-  }) => (
-    <div 
-      className={`group relative bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-700 ease-out hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 hover:scale-105 ${isLoaded ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-      <div className="relative z-10">
-        <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 ease-out">
-          {icon}
-        </div>
-        <h3 className="text-xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-500">
-          {title}
-        </h3>
-        <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-500">
-          {description}
-        </p>
-      </div>
-    </div>
-  )
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden relative">
@@ -198,8 +172,8 @@ export default function Home() {
                   key={item.name}
                   href={item.href}
                   target={item.href.endsWith('.md') ? '_blank' : undefined}
-                  className={`text-gray-300 hover:text-white transition-all duration-300 ease-out hover:scale-105 relative group ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
                   style={{ animationDelay: `${600 + index * 100}ms` }}
+                  className={`text-gray-300 hover:text-white transition-all duration-300 ease-out hover:scale-105 relative group ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
                 >
                   {item.name}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 group-hover:w-full transition-all duration-300 ease-out" />
@@ -213,69 +187,65 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Enhanced Hero Section */}
+      {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
         <div className="relative z-10 text-center max-w-6xl mx-auto">
-          <div className={`transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`animate-on-load transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="inline-block px-6 py-2 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 rounded-full text-purple-300 text-sm font-medium mb-8">
               Advanced Solana Trading Infrastructure
             </div>
-            
             <h1 className="text-7xl md:text-8xl font-bold mb-8 leading-tight">
-              Professional Trading with
-              <br />
+              Professional Trading with<br />
               <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient-shift">
                 PumpBoost
               </span>
             </h1>
           </div>
-          
-          <div className={`transition-all duration-1000 ease-out delay-300 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`animate-on-load transition-all duration-1000 ease-out delay-300 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <p className="text-2xl text-gray-300 mb-12 leading-relaxed max-w-4xl mx-auto">
-              Institutional-grade Telegram bot for token analysis, portfolio management,
-              and algorithmic trading on Solana. Powered by real-time market data and
-              advanced analytics.
+              Institutional-grade Telegram bot for token analysis, portfolio management, and algorithmic trading on Solana. Powered by real-time market data and advanced analytics.
             </p>
           </div>
-
-          <div className={`transition-all duration-1000 ease-out delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`animate-on-load transition-all duration-1000 ease-out delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <button className="group relative px-12 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-white font-semibold text-lg overflow-hidden transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-105 hover:-translate-y-1">
                 <span className="relative z-10">Start Trading Now</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </button>
-              
-              <a href="/whitepaper.md" target="_blank" 
-                 className="group px-12 py-4 border-2 border-gray-600 rounded-xl text-white font-semibold text-lg hover:border-purple-500 hover:bg-purple-500/10 transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/25">
+              <a
+                href="/whitepaper.md"
+                target="_blank"
+                className="group px-12 py-4 border-2 border-gray-600 rounded-xl text-white font-semibold text-lg hover:border-purple-500 hover:bg-purple-500/10 transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/25"
+              >
                 <span className="group-hover:text-purple-300 transition-colors duration-300">View Documentation</span>
               </a>
             </div>
           </div>
         </div>
-
-        {/* Scroll indicator */}
         <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-1000 delay-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <div className="animate-bounce">
-            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-6 h-6 text-gray-400">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
           </div>
         </div>
       </section>
 
-      {/* Enhanced Statistics Section */}
-      <section id="stats" data-animate className="py-24 relative">
+      {/* Stats Section */}
+      <section id="stats" className="py-24 relative">
         <div className="container mx-auto px-6">
-          <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 transition-all duration-1000 ease-out ${visibleSections.includes('stats') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {[
-              { value: 5847, label: "Active Users", suffix: "" },
-              { value: 28394, label: "Transactions", suffix: "" },
-              { value: 2847, label: "SOL Volume", suffix: "K" },
-              { value: 99.9, label: "Uptime", suffix: "%" }
+              { value: 5847, label: 'Active Users' },
+              { value: 28394, label: 'Transactions' },
+              { value: 2847, label: 'SOL Volume', suffix: 'K' },
+              { value: 99.9, label: 'Uptime', suffix: '%' }
             ].map((stat, index) => (
-              <div key={stat.label} 
-                   className={`text-center group transition-all duration-700 ease-out hover:scale-105 ${isLoaded ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}
-                   style={{ animationDelay: `${index * 150}ms` }}>
+              <div
+                key={stat.label}
+                style={{ animationDelay: `${index * 150}ms` }}
+                className={`text-center group transition-all duration-700 ease-out hover:scale-105 ${isLoaded ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}
+              >
                 <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-500">
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                 </div>
@@ -288,10 +258,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Enhanced Features Section */}
-      <section id="features" data-animate className="py-24 relative">
+      {/* Features Section */}
+      <section id="features" className="py-24 relative">
         <div className="container mx-auto px-6">
-          <div className={`text-center mb-16 transition-all duration-1000 ease-out ${visibleSections.includes('features') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`text-center mb-16 transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Advanced Features
             </h2>
@@ -299,66 +269,90 @@ export default function Home() {
               Comprehensive trading suite powered by cutting-edge technology and market intelligence
             </p>
           </div>
-          
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                icon: <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>,
-                title: "AI-Powered Analysis",
-                description: "Advanced machine learning algorithms analyze market patterns and predict optimal trading opportunities with institutional-grade accuracy."
+                icon: (
+                  <svg fill="currentColor" viewBox="0 0 20 20" className="w-8 h-8 text-white">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+                title: 'AI-Powered Analysis',
+                description: 'Advanced machine learning algorithms analyze market patterns and predict optimal trading opportunities with institutional-grade accuracy.'
               },
               {
-                icon: <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
-                </svg>,
-                title: "Community Intelligence",
-                description: "Leverage collective wisdom through PumpCall voting system and real-time sentiment analysis from verified traders."
+                icon: (
+                  <svg fill="currentColor" viewBox="0 0 20 20" className="w-8 h-8 text-white">
+                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
+                  </svg>
+                ),
+                title: 'Community Intelligence',
+                description: 'Leverage collective wisdom through PumpCall voting system and real-time sentiment analysis from verified traders.'
               },
               {
-                icon: <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M12 15v2m-6 0v2m3-13V2m0 2c1.11 0 2.06.895 2 2v7a2 2 0 11-4 0V6c-.06-1.105.889-2 2-2z" />
-                </svg>,
-                title: "Risk Management",
-                description: "Sophisticated risk assessment protocols with customizable stop-loss mechanisms and portfolio protection strategies."
+                icon: (
+                  <svg fill="currentColor" viewBox="0 0 20 20" className="w-8 h-8 text-white">
+                    <path d="M12 15v2m-6 0v2m3-13V2m0 2c1.11 0 2.06.895 2 2v7a2 2 0 11-4 0V6c-.06-1.105.889-2 2-2z" />
+                  </svg>
+                ),
+                title: 'Risk Management',
+                description: 'Sophisticated risk assessment protocols with customizable stop-loss mechanisms and portfolio protection strategies.'
               },
               {
-                icon: <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>,
-                title: "Real-time Analytics",
-                description: "Comprehensive market data aggregation with millisecond-precision execution and advanced charting capabilities."
+                icon: (
+                  <svg fill="currentColor" viewBox="0 0 20 20" className="w-8 h-8 text-white">
+                    <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                ),
+                title: 'Real-time Analytics',
+                description: 'Comprehensive market data aggregation with millisecond-precision execution and advanced charting capabilities.'
               },
               {
-                icon: <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" />
-                </svg>,
-                title: "Wallet Integration",
-                description: "Seamless integration with leading Solana wallets featuring multi-signature support and hardware wallet compatibility."
+                icon: (
+                  <svg fill="currentColor" viewBox="0 0 20 20" className="w-8 h-8 text-white">
+                    <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" />
+                  </svg>
+                ),
+                title: 'Wallet Integration',
+                description: 'Seamless integration with leading Solana wallets featuring multi-signature support and hardware wallet compatibility.'
               },
               {
-                icon: <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 2L3 7v11a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V7l-7-5z" />
-                </svg>,
-                title: "Enterprise Security",
-                description: "Bank-grade security infrastructure with end-to-end encryption, multi-factor authentication, and audit trail logging."
+                icon: (
+                  <svg fill="currentColor" viewBox="0 0 20 20" className="w-8 h-8 text-white">
+                    <path d="M10 2L3 7v11a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V7l-7-5z" />
+                  </svg>
+                ),
+                title: 'Enterprise Security',
+                description: 'Bank-grade security infrastructure with end-to-end encryption, multi-factor authentication, and audit trail logging.'
               }
             ].map((feature, index) => (
-              <FeatureCard 
-                key={feature.title} 
-                {...feature} 
-                delay={index * 200}
-              />
+              <div
+                key={feature.title}
+                className={`group relative bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-700 ease-out hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 hover:scale-105 animate-on-load ${isLoaded ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 ease-out">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-500">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-500">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Enhanced Documentation Section */}
-      <section id="documentation" data-animate className="py-24 relative">
+      {/* Documentation Section */}
+      <section id="documentation" className="py-24 relative">
         <div className="container mx-auto px-6">
-          <div className={`text-center mb-16 transition-all duration-1000 ease-out ${visibleSections.includes('documentation') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`text-center mb-16 transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Technical Documentation
             </h2>
@@ -366,140 +360,45 @@ export default function Home() {
               Comprehensive guides and API references for developers and traders
             </p>
           </div>
-
-          <div className={`bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/50 transition-all duration-1000 ease-out hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/10 ${visibleSections.includes('documentation') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
+          <div className={`bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/50 transition-all duration-1000 ease-out hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/10 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
             <div className="flex flex-wrap border-b border-gray-700/50 mb-8">
-              {[
-                { id: 'overview', label: 'Overview' },
-                { id: 'api', label: 'API Reference' },
-                { id: 'integration', label: 'Integration Guide' },
-                { id: 'security', label: 'Security' }
-              ].map((tab, index) => (
+              {['Overview', 'API Reference', 'Integration Guide', 'Security'].map((tab, index) => (
                 <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-3 font-semibold transition-all duration-300 ease-out hover:scale-105 ${
-                    activeTab === tab.id 
-                      ? 'text-purple-400 border-b-2 border-purple-400' 
-                      : 'text-gray-400 hover:text-white'
-                  } ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
+                  key={tab}
                   style={{ animationDelay: `${800 + index * 100}ms` }}
+                  className={`px-6 py-3 font-semibold transition-all duration-300 ease-out hover:scale-105 ${activeTab === tab.toLowerCase().replace(' ', '-') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-gray-400 hover:text-white'} ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
+                  onClick={() => setActiveTab(tab.toLowerCase().replace(' ', '-'))}
                 >
-                  {tab.label}
+                  {tab}
                 </button>
               ))}
             </div>
-
             <div className="min-h-[300px] transition-all duration-500 ease-out">
-              {activeTab === 'overview' && (
-                <div className="animate-fade-in">
-                  <h3 className="text-2xl font-bold text-white mb-6">Platform Overview</h3>
-                  <div className="space-y-4 text-gray-300 leading-relaxed">
-                    <p>PumpBoost Bot represents the next generation of automated trading systems, specifically designed for the Solana ecosystem with advanced AI capabilities.</p>
-                    <p>Our platform combines machine learning algorithms, real-time market analysis, and community-driven intelligence to deliver superior trading performance.</p>
-                    <div className="bg-gray-800/50 rounded-xl p-6 mt-6 border border-gray-700/30">
-                      <h4 className="text-lg font-semibold text-purple-400 mb-3">Core Architecture</h4>
-                      <ul className="space-y-2 text-sm">
-                        <li>• Microservices-based distributed system</li>
-                        <li>• Real-time WebSocket data streaming</li>
-                        <li>• Advanced caching and optimization layers</li>
-                        <li>• Scalable cloud infrastructure</li>
-                      </ul>
-                    </div>
+              <div className="animate-fade-in">
+                <h3 className="text-2xl font-bold text-white mb-6">Platform Overview</h3>
+                <div className="space-y-4 text-gray-300 leading-relaxed">
+                  <p>PumpBoost Bot represents the next generation of automated trading systems, specifically designed for the Solana ecosystem with advanced AI capabilities.</p>
+                  <p>Our platform combines machine learning algorithms, real-time market analysis, and community-driven intelligence to deliver superior trading performance.</p>
+                  <div className="bg-gray-800/50 rounded-xl p-6 mt-6 border border-gray-700/30">
+                    <h4 className="text-lg font-semibold text-purple-400 mb-3">Core Architecture</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li>• Microservices-based distributed system</li>
+                      <li>• Real-time WebSocket data streaming</li>
+                      <li>• Advanced caching and optimization layers</li>
+                      <li>• Scalable cloud infrastructure</li>
+                    </ul>
                   </div>
                 </div>
-              )}
-
-              {activeTab === 'api' && (
-                <div className="animate-fade-in">
-                  <h3 className="text-2xl font-bold text-white mb-6">API Reference</h3>
-                  <div className="space-y-6">
-                    <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/30">
-                      <h4 className="text-lg font-semibold text-purple-400 mb-3">Authentication</h4>
-                      <pre className="bg-black/50 rounded-lg p-4 text-green-400 text-sm overflow-x-auto">
-{`POST /api/v1/auth/login
-Content-Type: application/json
-
-{
-  "api_key": "your_api_key",
-  "signature": "signed_payload"
-}`}
-                      </pre>
-                    </div>
-                    
-                    <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/30">
-                      <h4 className="text-lg font-semibold text-purple-400 mb-3">Trading Endpoints</h4>
-                      <pre className="bg-black/50 rounded-lg p-4 text-green-400 text-sm overflow-x-auto">
-{`GET /api/v1/trades
-POST /api/v1/trades/execute
-GET /api/v1/portfolio/balance
-POST /api/v1/strategy/configure`}
-                      </pre>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === 'integration' && (
-                <div className="animate-fade-in">
-                  <h3 className="text-2xl font-bold text-white mb-6">Integration Guide</h3>
-                  <div className="space-y-4 text-gray-300">
-                    <p>Follow these steps to integrate PumpBoost Bot with your trading infrastructure:</p>
-                    <div className="space-y-4">
-                      {[
-                        "Generate API credentials from your dashboard",
-                        "Configure webhook endpoints for real-time updates",
-                        "Implement authentication and signature verification",
-                        "Set up error handling and retry mechanisms",
-                        "Configure risk management parameters"
-                      ].map((step, index) => (
-                        <div key={index} className="flex items-start space-x-4 bg-gray-800/30 rounded-lg p-4">
-                          <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                            {index + 1}
-                          </div>
-                          <p className="flex-1">{step}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === 'security' && (
-                <div className="animate-fade-in">
-                  <h3 className="text-2xl font-bold text-white mb-6">Security Protocols</h3>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/30">
-                      <h4 className="text-lg font-semibold text-purple-400 mb-3">Encryption</h4>
-                      <ul className="space-y-2 text-gray-300 text-sm">
-                        <li>• AES-256 encryption for data at rest</li>
-                        <li>• TLS 1.3 for data in transit</li>
-                        <li>• RSA-4096 key exchange</li>
-                        <li>• Perfect forward secrecy</li>
-                      </ul>
-                    </div>
-                    
-                    <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/30">
-                      <h4 className="text-lg font-semibold text-purple-400 mb-3">Authentication</h4>
-                      <ul className="space-y-2 text-gray-300 text-sm">
-                        <li>• Multi-factor authentication</li>
-                        <li>• Hardware security modules</li>
-                        <li>• API key rotation</li>
-                        <li>• Rate limiting and DDoS protection</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Enhanced How to Use Section */}
-      <section id="how-to-use" data-animate className="py-24 relative">
+      {/* How to Use Section */}
+      <section id="how-to-use" className="py-24 relative">
         <div className="container mx-auto px-6">
-          <div className={`text-center mb-16 transition-all duration-1000 ease-out ${visibleSections.includes('how-to-use') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`text-center mb-16 transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Getting Started
             </h2>
@@ -507,28 +406,29 @@ POST /api/v1/strategy/configure`}
               Begin your automated trading journey in minutes
             </p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                step: "01",
-                title: "Connect Wallet",
-                description: "Securely link your Solana wallet with enterprise-grade encryption and multi-signature support for maximum security."
+                step: '01',
+                title: 'Connect Wallet',
+                description: 'Securely link your Solana wallet with enterprise-grade encryption and multi-signature support for maximum security.'
               },
               {
-                step: "02", 
-                title: "Configure Strategy",
-                description: "Set up your trading parameters using our advanced strategy builder with risk management and backtesting capabilities."
+                step: '02',
+                title: 'Configure Strategy',
+                description: 'Set up your trading parameters using our advanced strategy builder with risk management and backtesting capabilities.'
               },
               {
-                step: "03",
-                title: "Start Trading",
-                description: "Activate automated trading with real-time monitoring, performance analytics, and instant notifications."
+                step: '03',
+                title: 'Start Trading',
+                description: 'Activate automated trading with real-time monitoring, performance analytics, and instant notifications.'
               }
             ].map((item, index) => (
-              <div key={item.step} 
-                   className={`relative group transition-all duration-700 ease-out hover:scale-105 ${visibleSections.includes('how-to-use') ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}
-                   style={{ animationDelay: `${index * 200}ms` }}>
+              <div
+                key={item.step}
+                style={{ animationDelay: `${index * 200}ms` }}
+                className={`relative group transition-all duration-700 ease-out hover:scale-105 animate-on-load ${isLoaded ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}
+              >
                 <div className="bg-gradient-to-br from-gray-900/60 to-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20">
                   <div className="text-6xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-6 group-hover:scale-110 transition-transform duration-500">
                     {item.step}
@@ -540,7 +440,6 @@ POST /api/v1/strategy/configure`}
                     {item.description}
                   </p>
                 </div>
-                
                 {index < 2 && (
                   <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 transform -translate-y-1/2 group-hover:scale-x-110 transition-transform duration-500" />
                 )}
@@ -550,29 +449,26 @@ POST /api/v1/strategy/configure`}
         </div>
       </section>
 
-      {/* Enhanced CTA Section */}
-      <section id="cta" data-animate className="py-24 relative overflow-hidden">
+      {/* CTA Section */}
+      <section id="cta" className="py-24 relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-900/20 to-pink-900/20" />
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float-slow" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-float-slow-reverse" />
         </div>
-        
         <div className="relative container mx-auto px-6 text-center">
-          <div className={`transition-all duration-1000 ease-out ${visibleSections.includes('cta') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Ready to Transform Your Trading?
             </h2>
             <p className="text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
               Join thousands of traders leveraging AI-powered automation for superior market performance
             </p>
-            
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <button className="group relative px-12 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-white font-bold text-xl overflow-hidden transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-105 hover:-translate-y-1">
                 <span className="relative z-10">Launch Bot Now</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </button>
-              
               <button className="group px-12 py-5 border-2 border-gray-600 rounded-xl text-white font-bold text-xl hover:border-purple-500 hover:bg-purple-500/10 transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/25">
                 <span className="group-hover:text-purple-300 transition-colors duration-300">View Demo</span>
               </button>
@@ -581,7 +477,7 @@ POST /api/v1/strategy/configure`}
         </div>
       </section>
 
-      {/* Enhanced Footer */}
+      {/* Footer */}
       <footer className="relative py-16 border-t border-gray-800/50">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
@@ -604,27 +500,28 @@ POST /api/v1/strategy/configure`}
                 Next-generation Solana trading automation powered by artificial intelligence and community intelligence.
               </p>
             </div>
-            
             {[
               {
-                title: "Platform",
-                links: ["Features", "Pricing", "Security", "API Docs"]
+                title: 'Platform',
+                links: ['Features', 'Pricing', 'Security', 'API Docs']
               },
               {
-                title: "Resources", 
-                links: ["Documentation", "Whitepaper", "Community", "Support"]
+                title: 'Resources',
+                links: ['Documentation', 'Whitepaper', 'Community', 'Support']
               },
               {
-                title: "Company",
-                links: ["About", "Blog", "Careers", "Contact"]
+                title: 'Company',
+                links: ['About', 'Blog', 'Careers', 'Contact']
               }
             ].map((section, index) => (
-              <div key={section.title} 
-                   className={`space-y-4 transition-all duration-700 ease-out ${isLoaded ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}
-                   style={{ animationDelay: `${1200 + index * 100}ms` }}>
+              <div
+                key={section.title}
+                style={{ animationDelay: `${1200 + index * 100}ms` }}
+                className={`space-y-4 transition-all duration-700 ease-out ${isLoaded ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}
+              >
                 <h3 className="text-lg font-semibold text-white">{section.title}</h3>
                 <ul className="space-y-2">
-                  {section.links.map(link => (
+                  {section.links.map((link) => (
                     <li key={link}>
                       <a href="#" className="text-gray-400 hover:text-purple-400 transition-colors duration-300 hover:translate-x-1 inline-block">
                         {link}
@@ -635,77 +532,14 @@ POST /api/v1/strategy/configure`}
               </div>
             ))}
           </div>
-          
-          <div className={`pt-8 border-t border-gray-800/50 text-center text-gray-400 transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ animationDelay: '1500ms' }}>
-            <p>&copy; 2024 PumpBoost. All rights reserved. Built with precision for the Solana ecosystem.</p>
+          <div
+            style={{ animationDelay: '1500ms' }}
+            className={`pt-8 border-t border-gray-800/50 text-center text-gray-400 transition-all duration-1000 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          >
+            <p>© 2024 PumpBoost. All rights reserved. Built with precision for the Solana ecosystem.</p>
           </div>
         </div>
       </footer>
-
-      <style jsx>{`
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        @keyframes float-slow-reverse {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(20px) rotate(-180deg); }
-        }
-        
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.8; }
-        }
-        
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        
-        @keyframes fade-in-up {
-          from { 
-            opacity: 0; 
-            transform: translateY(30px); 
-          }
-          to { 
-            opacity: 1; 
-            transform: translateY(0); 
-          }
-        }
-        
-        .animate-gradient-shift {
-          animation: gradient-shift 3s ease infinite;
-        }
-        
-        .animate-float-slow {
-          animation: float-slow 6s ease-in-out infinite;
-        }
-        
-        .animate-float-slow-reverse {
-          animation: float-slow-reverse 8s ease-in-out infinite;
-        }
-        
-        .animate-pulse-slow {
-          animation: pulse-slow 4s ease-in-out infinite;
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out forwards;
-          opacity: 0;
-        }
-        
-        .animate-fade-in-up {
-          animation: fade-in-up 0.8s ease-out forwards;
-          opacity: 0;
-        }
-      `}</style>
     </div>
   )
 }

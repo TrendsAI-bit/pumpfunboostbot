@@ -233,15 +233,15 @@ a {
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 .animate-pulse-glow-delayed {
-  animation: pulse-glow-delayed 4s ease-in-out infinite 2s;
+  animation: pulse-glow-delayed 2.5s ease-in-out infinite;
 }
 
 .animate-float-orbit {
-  animation: float-orbit 20s linear infinite;
+  animation: float-orbit 10s linear infinite;
 }
 
 .animate-gradient-shift {
@@ -250,7 +250,7 @@ a {
 }
 
 .animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
+  animation: fade-in 0.8s ease-out forwards;
 }
 
 .animate-fade-in-up {
@@ -258,23 +258,23 @@ a {
 }
 
 .animate-float-slow {
-  animation: float-slow 20s ease-in-out infinite;
+  animation: float-slow 6s ease-in-out infinite;
 }
 
 .animate-float-slow-reverse {
-  animation: float-slow-reverse 25s ease-in-out infinite;
+  animation: float-slow-reverse 8s ease-in-out infinite;
 }
 
 .animate-pulse-slow {
-  animation: pulse-slow 6s ease-in-out infinite;
+  animation: pulse-slow 4s ease-in-out infinite;
 }
 
 .animate-trading-scroll {
-  animation: trading-data-scroll 30s linear infinite;
+  animation: trading-data-scroll 20s linear infinite;
 }
 
 .animate-chart-draw {
-  animation: chart-line-draw 2s ease-out forwards;
+  animation: chart-line-draw 3s ease-in-out infinite;
 }
 
 .animate-price-flash {
@@ -285,30 +285,34 @@ a {
   animation: volume-bars 1.5s ease-in-out infinite;
 }
 
-/* Background utilities */
-.bg-300\% {
-  background-size: 300% 300%;
+/* Animation On Load Helper */
+.animate-on-load {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
 }
 
-/* Trading terminal effects */
+.animate-on-load.animate-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .trading-glow {
-  box-shadow: 
-    0 0 20px rgba(34, 197, 94, 0.3),
-    inset 0 0 20px rgba(34, 197, 94, 0.1);
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
 }
 
 .trading-border {
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
 }
 
-/* Scrollbar styling */
+/* Scrollbar Styles */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: #1f2937;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -320,26 +324,25 @@ a {
   background: linear-gradient(to bottom, #7c3aed, #db2777);
 }
 
-/* Glass morphism effects */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  background: rgba(31, 41, 55, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .glass-dark {
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Responsive adjustments */
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
   .trading-background {
-    opacity: 0.5;
+    opacity: 0.3;
   }
   
   .animate-float-trade {
-    animation-duration: 12s;
+    animation-duration: 4s;
   }
 }
